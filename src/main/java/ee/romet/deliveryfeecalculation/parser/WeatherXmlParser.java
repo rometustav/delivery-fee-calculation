@@ -2,6 +2,8 @@ package ee.romet.deliveryfeecalculation.parser;
 
 import ee.romet.deliveryfeecalculation.model.entity.WeatherObservation;
 import ee.romet.deliveryfeecalculation.model.enums.City;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.*;
 import javax.xml.parsers.*;
@@ -13,6 +15,8 @@ import java.util.List;
 
 @Component
 public class WeatherXmlParser {
+
+    private static final Logger log = LoggerFactory.getLogger(WeatherXmlParser.class);
 
     private static final List<String> trackedStations = Arrays.stream(City.values())
             .map(City::getStationName)
@@ -51,6 +55,8 @@ public class WeatherXmlParser {
 
             observations.add(obs);
         }
+
+        log.info("Parsed {} weather observations", observations.size());
 
         return observations;
     }
