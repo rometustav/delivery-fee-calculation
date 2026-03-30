@@ -59,7 +59,10 @@ public class DeliveryFeeService {
                 : repository.findTopByStationNameAndTimestampLessThanEqualOrderByTimestampDesc(
                 city.getStationName(), datetime);
 
-        return obs.orElseThrow(() -> new IllegalStateException("No weather data available for city " + city.getStationName()));
+        return obs.orElseThrow(() -> {
+            log.warn("No weather observation found for city={}", city.getStationName());
+            return new IllegalStateException("No weather data available for city " + city.getStationName());
+        });
     }
 
 
